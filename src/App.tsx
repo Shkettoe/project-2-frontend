@@ -1,24 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { eColours } from './assets/Vars';
+import { Button } from './components/Button';
+import { InputB } from './components/Input';
+import { Place } from './components/Place';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Button fgColour={eColours.primaryBlue} bgColour='#ffffff' borderWidth={'1px'} height='40px' width='140px' type='button'>fjoiaejfoisfo</Button>
+      <InputB height='46px' width='420px'></InputB>
+      <div style={{"width": "50px", "margin": "auto"}}>
+      <Place index={0}>0</Place>
+      <Place index={1}>1</Place>
+      <Place index={2}>2</Place>
+      <Place index={3}>3</Place>
+      </div>
     </div>
   );
 }
