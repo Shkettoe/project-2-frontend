@@ -1,19 +1,43 @@
+html,
+body {
+    min-height: 100vh;
+}
+
+body,
+#root {
+    z-index: 1;
+    box-sizing: border-box;
+    min-height: 100vh;
+    /* min-width: 100vw; */
+    padding: 0px;
+    margin: 0px;
+    position: absolute;
+    right: 0px;
+    left: 0px;
+}
+
+#root {
+    min-height: 100vh;
+    font-family: Raleway;
+    overflow: hidden;
+}
+
 @font-face {
   font-family: 'Roboto';
   src: url('./assets/fonts/Roboto-Regular.ttf');
   font-weight: 400;
+  font-weight: lighter;
 }
 @font-face {
   font-family: 'Roboto';
   src: url('./assets/fonts/Roboto-Medium.ttf');
   font-weight: 500;
-  font-weight: bold;
 }
 @font-face{
   font-family: 'Roboto';
   src: url('./assets/fonts/Roboto-Bold.ttf');
   font-weight: 700;
-  font-weight: bolder;
+  font-weight: bold;
 }
 
 *{
@@ -26,6 +50,7 @@
   font-family: 'Roboto';
 }
 
-*:focus{
+*:focus, *::-moz-focus-inner, *::-moz-focus-outer, *::-moz-selection{
+  border: 0;
   outline: none;
 }

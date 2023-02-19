@@ -1,22 +1,25 @@
-import './App.css';
-import { eColours } from './assets/Vars';
-import { Button } from './components/Button';
-import { InputB } from './components/Input';
-import { Place } from './components/Place';
+import { Route, Routes } from 'react-router-dom'
+import './App.css'
+import { eColours, eProfileImageSizes } from './assets/Vars'
+import Button from './components/Button'
+import { InputB } from './components/Input'
+import Place from './components/Place'
+import ProfileImage from './components/ProfileImage'
+import LoginForm from './containers/LoginForm'
+import RegisterForm from './containers/RegisterForm'
+import Wrap from './layouts/Wrap'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
 
 function App() {
   return (
-    <div className="App">
-      <Button fgColour={eColours.primaryBlue} bgColour='#ffffff' borderWidth={'1px'} height='40px' width='140px' type='button'>fjoiaejfoisfo</Button>
-      <InputB height='46px' width='420px'></InputB>
-      <div style={{"width": "50px", "margin": "auto"}}>
-      <Place index={0}>0</Place>
-      <Place index={1}>1</Place>
-      <Place index={2}>2</Place>
-      <Place index={3}>3</Place>
-      </div>
-    </div>
-  );
+    <Wrap>
+      <Routes>
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/register' element={<RegisterPage />} />
+      </Routes>
+    </Wrap>
+  )
 }
 
-export default App;
+export default App
