@@ -1,7 +1,6 @@
-import React from 'react'
-import { useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { eColours, eFontSizes } from '../assets/Vars'
+import { eColours, eFontSizes, eFontWeights } from '../assets/Vars'
 import Button from '../components/Button'
 
 const StyledNavBar = styled.nav`
@@ -18,15 +17,33 @@ const StyledNavBar = styled.nav`
   }
 `
 
+const btns = (u: boolean) => {
+  if (u) return <div>logged in</div>
+  return (
+    <>
+      <Link to={'login'} style={{ color: eColours.dark, fontSize: eFontSizes.body, fontWeight: eFontWeights.medium }}>
+        Sign in
+      </Link>
+      <span style={{ fontSize: eFontSizes.body, margin: '0px 16px', fontWeight: eFontWeights.light }}> or </span>
+      <Link to={'register'}>
+        <Button width={'137px'} height={'31px'}>
+          Sign up
+        </Button>
+      </Link>
+    </>
+  )
+}
+
 const NavBar = ({ auth = false }: { auth: boolean }) => {
-  const location = useLocation()
   return (
     <StyledNavBar>
       <div>
-        <img src='/logo.png' alt='' /> <span className='light'>Geo</span>
-        <span className='dark'>tagger</span>
+        <Link to={'/'}>
+          <img src='/logo.png' alt='' /> <span className='light'>Geo</span>
+          <span className='dark'>tagger</span>
+        </Link>
       </div>
-      <div>{!auth && <Button>bksjfksl</Button>}</div>
+      <div>{!auth && btns(false)}</div>
     </StyledNavBar>
   )
 }

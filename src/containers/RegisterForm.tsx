@@ -11,8 +11,13 @@ import passwordSchema from '../validation/schemas/Passwords.schema'
 import Matchify from '../validation/Matchify.util'
 import { useForm } from 'react-hook-form'
 import registerTypes from '../validation/types/Register.type'
+import useAPI from '../hooks/useAPI'
+import api from '../api/Api'
+import { useEffect } from 'react'
 
 const RegisterForm = () => {
+  const [response, error, apiFetch] = useAPI()
+
   const {
     register,
     handleSubmit,
@@ -22,11 +27,17 @@ const RegisterForm = () => {
   })
 
   const submit = (data: registerTypes) => {
-    console.log(data)
+    apiFetch({
+      method: 'post',
+      apiInstance: api,
+      data,
+      url: 'auth/register',
+    })
   }
 
   return (
     <form onSubmit={handleSubmit(submit)}>
+      <Error>{error}</Error>
       <PersonalDataForm errors={errors} width={420} register={register} />
       <InputContainer>
         <Label fontWeight={eFontWeights.medium} htmlFor='password'>
