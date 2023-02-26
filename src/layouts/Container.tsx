@@ -4,6 +4,7 @@ const ContainerST = styled.div`
   margin-top: 80px;
   max-height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-bottom: 130px;

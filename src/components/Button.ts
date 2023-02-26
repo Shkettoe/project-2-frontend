@@ -12,7 +12,7 @@ const Button = styled.button<iCommonSt>`
   border-radius: 4px;
   font-size: ${props => props.fontSize || '16px'};
   border: solid ${props => props.borderWidth || '0px'} ${props => props.borderColour || props.fgColour};
-  text-transform: uppercase;
+  text-transform: ${props => props.textTransform || 'uppercase'};
   @media (max-width: 720px) {
     width: ${props =>
       `${parseInt(props.width?.toString().substring(0, props.width?.toString().length - 2) || '420px') / 1.3}px` ||
@@ -22,6 +22,9 @@ const Button = styled.button<iCommonSt>`
     background-color: ${props => props.bgColour && `#${(parseInt(props.bgColour.substring(1), 16) - parseInt('070707', 16)).toString(16)}`};
     text-decoration: underline;
     cursor: pointer;
+  }
+  & * {
+    color: ${props => props.fgColour || '#ffffff'};
   }
 `
 export default Button

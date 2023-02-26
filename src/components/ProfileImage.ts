@@ -6,5 +6,6 @@ const ProfileImage = styled.img<iCommonSt>`
   width: ${props => props.width || props.height || '40px'};
   height: ${props => props.height || props.width || '40px'};
   margin: 16px;
+  margin-bottom: 0px;
 `
 export default ProfileImage

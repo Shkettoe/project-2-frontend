@@ -6,6 +6,7 @@ const Label = styled.label<iCommonSt>`
   font-size: ${props => props.fontSize || eFontSizes.caption};
   font-weight: ${props => props.fontWeight || eFontWeights.medium};
   color: ${props => props.fgColour || eColours.black};
+  margin: 8px 0px;
 `
 
 export default Label

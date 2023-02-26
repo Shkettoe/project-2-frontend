@@ -1,22 +1,46 @@
+import { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
-import { eColours, eProfileImageSizes } from './assets/Vars'
-import Button from './components/Button'
-import { InputB } from './components/Input'
-import Place from './components/Place'
-import ProfileImage from './components/ProfileImage'
-import LoginForm from './containers/LoginForm'
-import RegisterForm from './containers/RegisterForm'
+import useR from './hooks/useR'
 import Wrap from './layouts/Wrap'
-import LoginPage from './pages/LoginPage'
-import RegisterPage from './pages/RegisterPage'
+import ConfirmEmail from './pages/ConfirmEmail'
+import LoginPage from './pages/auth/LoginPage'
+import RegisterPage from './pages/auth/RegisterPage'
+import FrontPage from './pages/FrontPage'
+import Loading from './layouts/Loading'
 
 function App() {
-  return (
+  const [user, , startSession, error] = useR()
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    startSession()
+  }, [])
+
+  useEffect(() => {
+    if (user || error) setTimeout(() => setLoading(false), 500)
+  }, [user])
+
+  return loading ? (
+    <Loading />
+  ) : (
     <Wrap>
       <Routes>
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/register' element={<RegisterPage />} />
+        <Route path='loading' element={<Loading />} />
+        {!user?.id ? (
+          <>
+            <Route path='*' element={<FrontPage />} />
+            <Route path='login' element={<LoginPage />} />
+            <Route path='register' element={<RegisterPage />} />
+          </>
+        ) : (
+          <>
+            <Route path='auth/confirm' element={<ConfirmEmail />} />
+            <Route path='location' element={<>teehee</>}>
+              <Route path='location/:id' element={<>someone's post</>} />
+            </Route>
+          </>
+        )}
       </Routes>
     </Wrap>
   )

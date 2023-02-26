@@ -9,4 +9,6 @@ export interface iCommonSt {
   fgColour?: string
   borderColour?: string
   borderWidth?: string | number
+  textTransform?: string
+  gap?: string | number
 }

@@ -1,9 +1,7 @@
 import Error from '../components/Error'
-import { eColours, eFontWeights } from '../assets/Vars'
+import { eColours } from '../assets/Vars'
 import Button from '../components/Button'
-import { InputB } from '../components/Input'
 import InputContainer from '../containers/InputContainer'
-import Label from '../components/Label'
 import PersonalDataForm from './PersonalDataForm'
 import { zodResolver } from '@hookform/resolvers/zod'
 import personalSchema from '../validation/schemas/PersonalInfo.schema'
@@ -14,8 +12,13 @@ import registerTypes from '../validation/types/Register.type'
 import useAPI from '../hooks/useAPI'
 import api from '../api/Api'
 import { useEffect } from 'react'
+import { useAppDispatch } from '../hooks/store-hook'
+import { setUser } from '../store/reducers/User.reducer'
+import { Navigate } from 'react-router-dom'
+import PasswordsForm from './PasswordsForm'
 
 const RegisterForm = () => {
+  const dispatch = useAppDispatch()
   const [response, error, apiFetch] = useAPI()
 
   const {
@@ -35,30 +38,23 @@ const RegisterForm = () => {
     })
   }
 
-  return (
-    <form onSubmit={handleSubmit(submit)}>
+  useEffect(() => {
+    response?.data && dispatch(setUser(response.data))
+  }, [response])
+
+  return !response?.data ? (
+    <form style={{ marginTop: '16px' }} onSubmit={handleSubmit(submit)}>
       <Error>{error}</Error>
       <PersonalDataForm errors={errors} width={420} register={register} />
-      <InputContainer>
-        <Label fontWeight={eFontWeights.medium} htmlFor='password'>
-          Password
-        </Label>
-        <InputB type={'password'} {...register('password')} height={'38px'} width={'420px'} />
-        <Error>{errors.password?.message}</Error>
-      </InputContainer>
-      <InputContainer>
-        <Label fontWeight={eFontWeights.medium} htmlFor='confirm_password'>
-          Confirm Password
-        </Label>
-        <InputB type={'password'} {...register('confirm_password')} height={'38px'} width={'420px'} />
-        <Error>{errors.confirm_password?.message}</Error>
-      </InputContainer>
+      <PasswordsForm errors={errors} width={420} register={register} />
       <InputContainer>
         <Button type='submit' height={'39px'} width={'420px'} fgColour='#ffffff' bgColour={eColours.primaryBlue}>
           Sign up
         </Button>
       </InputContainer>
     </form>
+  ) : (
+    <Navigate to={'/'} />
   )
 }
 

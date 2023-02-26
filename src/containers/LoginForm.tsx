@@ -10,16 +10,22 @@ import loginSchema from '../validation/schemas/Login.schema'
 import loginTypes from '../validation/types/Login.type'
 import api from '../api/Api'
 import useAPI from '../hooks/useAPI'
-import { useEffect } from 'react'
+import { useAppDispatch } from '../hooks/store-hook'
+import { setUser } from '../store/reducers/User.reducer'
+import { useEffect, useState } from 'react'
+import { Navigate } from 'react-router-dom'
+import useR from '../hooks/useR'
 
 const LoginForm = () => {
+  const dispatch = useAppDispatch()
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<loginTypes>({ resolver: zodResolver(loginSchema) })
 
-  const [response, error, apiFetch] = useAPI()
+  const [response, error, apiFetch, setError] = useAPI()
 
   const submit = (data: loginTypes) => {
     apiFetch({
@@ -31,19 +37,19 @@ const LoginForm = () => {
   }
 
   useEffect(() => {
-    console.log(response)
+    response?.data && dispatch(setUser(response?.data))
   }, [response])
 
-  return (
+  return !response?.data ? (
     <form onSubmit={handleSubmit(submit)}>
       <InputContainer>
         <Label htmlFor='email'>Email</Label>
-        <InputA {...register('email')} width={'420px'} height={'46px'} />
+        <InputA {...register('email', { onChange: () => setError('') })} width={'420px'} height={'46px'} />
         <Error>{errors.email?.message || error}</Error>
       </InputContainer>
       <InputContainer>
         <Label htmlFor='password'>Password</Label>
-        <InputA type={'password'} {...register('password')} width={'420px'} height={'46px'} />
+        <InputA type={'password'} {...register('password', { onChange: () => setError('') })} width={'420px'} height={'46px'} />
         <Error>{errors.password?.message}</Error>
       </InputContainer>
       <InputContainer>
@@ -52,6 +58,8 @@ const LoginForm = () => {
         </Button>
       </InputContainer>
     </form>
+  ) : (
+    <Navigate to={'/'} />
   )
 }
 
