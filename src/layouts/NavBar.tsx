@@ -5,6 +5,7 @@ import { eColours, eFontSizes, eFontWeights } from '../assets/Vars'
 import Button from '../components/Button'
 import ProfileImage from '../components/ProfileImage'
 import useR from '../hooks/useR'
+import User from '../interfaces/User.interface'
 import ProfileSettings from '../pages/profile/Profile-Settings'
 import { ProfileSettingsContext } from '../store/context/ProfileSettingsContext'
 
@@ -44,8 +45,8 @@ const Plus = styled(NavLink)`
   margin-bottom: -4px;
 `
 
-const Btns = (u: boolean, logout: () => void, openProfile: boolean, setOpenProfile: (state: boolean) => void) => {
-  if (u)
+const Btns = (u: User, logout: () => void, openProfile: boolean, setOpenProfile: (state: boolean) => void) => {
+  if (u?.id)
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <AuthedButton to={'/'}>Home</AuthedButton>
@@ -56,7 +57,7 @@ const Btns = (u: boolean, logout: () => void, openProfile: boolean, setOpenProfi
           Logout
         </AuthedButton>
         <NavLink to={'profile'}>
-          <ProfileImage src='/default.png' />
+          <ProfileImage src={u.avatar || 'default.png'} />
         </NavLink>
         <Plus to={'location'}>+</Plus>
         {openProfile && <ProfileSettings />}
@@ -89,7 +90,7 @@ const NavBar = ({ auth = false }: { auth: boolean }) => {
           <span className='dark'>tagger</span>
         </NavLink>
       </div>
-      <div>{!auth && Btns(Boolean(user?.id), terminateSession, openProfile, setOpenProfile)}</div>
+      <div>{!auth && Btns(user, terminateSession, openProfile, setOpenProfile)}</div>
     </StyledNavBar>
   )
 }

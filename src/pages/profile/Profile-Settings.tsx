@@ -24,8 +24,11 @@ import InputContainer from '../../containers/InputContainer'
 import registerTypes from '../../validation/types/Register.type'
 import passwordSchema from '../../validation/schemas/Passwords.schema'
 import Matchify from '../../validation/Matchify.util'
+import ProfileImage from '../../components/ProfileImage'
 
 const ProfileSettings = () => {
+  const [image, setImage] = useState<File>()
+
   enum eProfileTexts {
     profile = 'Change your information.',
     password = 'Change your password.',
@@ -35,7 +38,7 @@ const ProfileSettings = () => {
   enum eRoutes {
     profile = 'auth/me',
     password = 'auth/me/update-password',
-    avatar = 'users/pfp',
+    avatar = 'users/uploads',
   }
 
   const eProfileRenders = {
@@ -50,7 +53,19 @@ const ProfileSettings = () => {
         <PasswordsForm errors={errors} register={register} width={529} />
       </>
     ),
-    avatar: () => <>avatar</>,
+    avatar: () => (
+      <>
+        <div style={{ display: 'flex', flexDirection: 'column', minWidth: '529px', alignItems: 'center' }}>
+          <Label htmlFor='image'>
+            <InputB type='file' accept='.jpeg, .jpg, .png' multiple={false} id='image' hidden onChange={e => e.target.files && setImage(e.target.files[0])} />
+            <ProfileImage src={image ? URL.createObjectURL(image) : user.avatar} width={'64px'} />
+            <Button type='button' width={'529px'} height={'39px'} style={{ marginTop: '42px' }}>
+              <label htmlFor='image'>Upload new image</label>
+            </Button>
+          </Label>
+        </div>
+      </>
+    ),
   }
 
   const eResolvers = {
@@ -74,19 +89,25 @@ const ProfileSettings = () => {
     resolver: zodResolver(eResolvers[page]()),
   })
 
-  const submit = (data: registerTypes) => {
+  const submit = (data: any) => {
+    const formData = new FormData()
+    if (page == 'avatar' && image) {
+      formData.append('file', image)
+    }
     apiFetch({
       method: 'patch',
       apiInstance: api,
       url: eRoutes[page],
-      data,
+      data: page == 'avatar' ? formData : data,
     })
   }
 
   useEffect(() => {
     if (response?.data) {
-      dispatch(setUser(response.data))
-      setSaved(true)
+      setTimeout(() => {
+        dispatch(setUser(response.data))
+        setSaved(true)
+      }, 300)
     }
   })
 
@@ -100,7 +121,7 @@ const ProfileSettings = () => {
             Profile <span style={{ color: eColours.primaryBlue }}>settings.</span>
           </Paragraph>
           <Paragraph color={eColours.dark}>{eProfileTexts[page]}</Paragraph>
-          <form onSubmit={handleSubmit(submit)}>
+          <form onSubmit={handleSubmit(submit)} encType={page == 'avatar' ? 'multipart/form-data' : ''}>
             <>
               <Error>{error}</Error>
               {eProfileRenders[page]()}
