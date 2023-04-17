@@ -16,10 +16,11 @@ import { useAppDispatch } from '../hooks/store-hook'
 import { setUser } from '../store/reducers/User.reducer'
 import { Navigate } from 'react-router-dom'
 import PasswordsForm from './PasswordsForm'
+import User from '../interfaces/User.interface'
 
 const RegisterForm = () => {
   const dispatch = useAppDispatch()
-  const [response, error, apiFetch] = useAPI()
+  const [response, error, apiFetch] = useAPI<User>()
 
   const {
     register,
@@ -48,7 +49,12 @@ const RegisterForm = () => {
       <PersonalDataForm errors={errors} width={420} register={register} />
       <PasswordsForm errors={errors} width={420} register={register} />
       <InputContainer>
-        <Button type='submit' height={'39px'} width={'420px'} fgColour='#ffffff' bgColour={eColours.primaryBlue}>
+        <Button
+          type='submit'
+          height={'39px'}
+          width={'420px'}
+          fgColour='#ffffff'
+          bgColour={eColours.primaryBlue}>
           Sign up
         </Button>
       </InputContainer>

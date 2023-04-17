@@ -6,7 +6,7 @@ import useAPI from '../hooks/useAPI'
 
 const ConfirmEmail = () => {
   const [searchParams] = useSearchParams()
-  const [response, error, apiFetch] = useAPI()
+  const [response, error, apiFetch] = useAPI<{ msg: string }>()
 
   useEffect(() => {
     apiFetch({
@@ -20,7 +20,11 @@ const ConfirmEmail = () => {
     console.log(response, error)
   }, [response])
 
-  return <div style={{ fontSize: eFontSizes.headline4 }}>{response?.data.msg || error}</div>
+  return (
+    <div style={{ fontSize: eFontSizes.headline4 }}>
+      {response?.data.msg || error}
+    </div>
+  )
 }
 
 export default ConfirmEmail

@@ -1,3 +1,6 @@
+import Location from './Location.interface'
+import Guess from './Guess.interface'
+
 interface User {
   id: number
   email: string
@@ -6,14 +9,9 @@ interface User {
   password: string
   avatar: string
   emailVerified: boolean
-
-  //   role: 'admin' | 'user'
-
-  //   locations: Location[]
-
-  //   guesses: Guess[]
-
-  //   event_logs: EventLog[]
+  role: 'admin' | 'user'
+  locations: Location[]
+  guesses: Guess[]
 }
 
 export default User

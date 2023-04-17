@@ -1,4 +1,4 @@
-export interface iCommonSt {
+interface iCommonSt {
   fontSize?: string | number
   fontWeight?: string | number
   content?: string
@@ -12,3 +12,5 @@ export interface iCommonSt {
   textTransform?: string
   gap?: string | number
 }
+
+export default iCommonSt

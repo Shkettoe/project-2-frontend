@@ -1,6 +1,8 @@
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { eColours } from '../assets/Vars'
-import { iCommonSt } from '../interfaces/props/Common.props.interface'
+import useR from '../hooks/useR'
+import iCommonSt from '../interfaces/props/Common.props.interface'
 
 const FooterStyles = styled.footer<iCommonSt>`
   display: flex;
@@ -38,11 +40,19 @@ const FooterStyles = styled.footer<iCommonSt>`
     flex-grow: 0;
 
     & div {
-      max-width: 300px;
+      max-width: 450px;
       flex: none;
       order: 1;
       flex-grow: 1;
       color: #fff;
+      justify-content: end;
+      & a {
+        text-decoration: underline;
+        color: #fff;
+        &:hover {
+          color: #ddd;
+        }
+      }
     }
 
     & img {
@@ -54,12 +64,19 @@ const FooterStyles = styled.footer<iCommonSt>`
 `
 
 const Footer = ({}: iCommonSt) => {
+  const [user] = useR()
+
   return (
     <>
       <FooterStyles>
         <div>
           <img src='/Logo.png' alt='' />
-          <div>All rights reserved | skillupmentor.com</div>
+          <div>
+            {user.role == 'admin' && (
+              <NavLink to={'admin'}>Admin Panel</NavLink>
+            )}
+            All rights reserved | skillupmentor.com
+          </div>
         </div>
       </FooterStyles>
     </>

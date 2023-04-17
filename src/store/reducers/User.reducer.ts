@@ -13,6 +13,18 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.value = action.payload
     },
+    appendToUser: (state: { value: User }, action: PayloadAction<any>) => {
+      for (const key in action.payload) {
+        //@ts-ignore
+        state.value[key] = [
+          //@ts-ignore
+          ...state.value[key],
+          //@ts-ignore
+          ...action.payload[key],
+          //@ts-ignore
+        ] as User[key]
+      }
+    },
     unsetUser: state => {
       state.value = initialState.value
     },
@@ -20,5 +32,5 @@ const userSlice = createSlice({
 })
 
 export const selectUser = (state: RootState) => state.user.value
-export const { setUser, unsetUser } = userSlice.actions
+export const { setUser, appendToUser, unsetUser } = userSlice.actions
 export default userSlice

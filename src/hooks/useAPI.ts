@@ -1,11 +1,22 @@
 import { AxiosInstance, AxiosResponse } from 'axios'
 import { useState } from 'react'
+import api from '../api/Api'
 
-const useAPI = () => {
-  const [response, setResponse] = useState<AxiosResponse>()
+const useAPI = <T>() => {
+  const [response, setResponse] = useState<AxiosResponse<T>>()
   const [error, setError] = useState('')
 
-  const apiFetch = async ({ apiInstance, method, url, data }: { apiInstance: AxiosInstance; method: string; url: string; data?: {} }) => {
+  const apiFetch = async ({
+    apiInstance = api,
+    method,
+    url,
+    data,
+  }: {
+    apiInstance?: AxiosInstance
+    method: string
+    url: string
+    data?: {}
+  }) => {
     try {
       setResponse(
         await apiInstance(url, {
