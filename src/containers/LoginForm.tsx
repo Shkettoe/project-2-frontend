@@ -12,9 +12,9 @@ import api from '../api/Api'
 import useAPI from '../hooks/useAPI'
 import { useAppDispatch } from '../hooks/store-hook'
 import { setUser } from '../store/reducers/User.reducer'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
-import useR from '../hooks/useR'
+import User from '../interfaces/User.interface'
 
 const LoginForm = () => {
   const dispatch = useAppDispatch()
@@ -25,7 +25,7 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<loginTypes>({ resolver: zodResolver(loginSchema) })
 
-  const [response, error, apiFetch, setError] = useAPI()
+  const [response, error, apiFetch, setError] = useAPI<User>()
 
   const submit = (data: loginTypes) => {
     apiFetch({
@@ -44,16 +44,30 @@ const LoginForm = () => {
     <form onSubmit={handleSubmit(submit)}>
       <InputContainer>
         <Label htmlFor='email'>Email</Label>
-        <InputA {...register('email', { onChange: () => setError('') })} width={'420px'} height={'46px'} />
+        <InputA
+          {...register('email', { onChange: () => setError('') })}
+          width={'420px'}
+          height={'46px'}
+        />
         <Error>{errors.email?.message || error}</Error>
       </InputContainer>
       <InputContainer>
         <Label htmlFor='password'>Password</Label>
-        <InputA type={'password'} {...register('password', { onChange: () => setError('') })} width={'420px'} height={'46px'} />
+        <InputA
+          type={'password'}
+          {...register('password', { onChange: () => setError('') })}
+          width={'420px'}
+          height={'46px'}
+        />
         <Error>{errors.password?.message}</Error>
       </InputContainer>
       <InputContainer>
-        <Button type='submit' height={'39px'} width={'420px'} fgColour='#ffffff' bgColour={eColours.primaryBlue}>
+        <Button
+          type='submit'
+          height={'39px'}
+          width={'420px'}
+          fgColour='#ffffff'
+          bgColour={eColours.primaryBlue}>
           Sign In
         </Button>
       </InputContainer>

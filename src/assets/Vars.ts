@@ -7,6 +7,8 @@ export enum eColours {
   primaryBlue = '#619B8A',
   primaryOrange = '#de8667',
   dark = '#322d38',
+  red = '#9B6161',
+  error = '#ff1345',
 }
 
 export enum eFontSizes {
@@ -34,4 +36,14 @@ export enum eLeaderboardGradients {
 export enum eProfileImageSizes {
   big = '64px',
   small = '40px',
+}
+
+export enum eLocationImageSizes {
+  widthBig = '420px',
+  widthSmall = '310px',
+  heightBig = '235px',
+  heightSmall = '175px',
+  widthUploadPreview = '860px',
+  heightUplaod = '280px',
+  heightPreview = '324px',
 }

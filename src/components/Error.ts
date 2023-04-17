@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { eFontSizes } from '../assets/Vars'
+import { eColours, eFontSizes } from '../assets/Vars'
 
 const Error = styled.div`
-  color: #ff1345;
+  color: ${eColours.error};
   font-size: ${eFontSizes.caption};
 `
 

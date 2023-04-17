@@ -1,17 +1,27 @@
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import Background from '../../assets/Background'
 import { eColours, eFontSizes, eFontWeights } from '../../assets/Vars'
 import Paragraph from '../../components/Paragraph'
 import LoginForm from '../../containers/LoginForm'
 import Grid from '../../containers/TwoContainerGrid'
+import useDimensions from '../../hooks/useDimensions'
 
 const LoginPage = () => {
+  const { windowWidth } = useDimensions()
+
   return (
     <Grid>
       <div>
-        <Paragraph fontSize={eFontSizes.headline3} fontWeight={eFontWeights.medium}>
+        <Paragraph
+          fontSize={eFontSizes.headline3}
+          fontWeight={eFontWeights.medium}>
           Sign in
         </Paragraph>
-        <Paragraph width={'90%'} style={{ margin: '16px' }} color={eColours.dark}>
+        <Paragraph
+          width={'90%'}
+          style={{ margin: '16px' }}
+          color={eColours.dark}>
           Welcome back to Geotagger. We are glad that you are back.
         </Paragraph>
         <LoginForm />
@@ -25,14 +35,22 @@ const LoginPage = () => {
             minWidth: '92%',
           }}>
           <p>Do you want to create an account?</p>
-          <a href='/register' style={{ color: eColours.primaryBlue }}>
+          <Link to='/register' style={{ color: eColours.primaryBlue }}>
             Sign up
-          </a>
+          </Link>
         </div>
+        <section>
+          <p>Forgot password?</p>
+          <Link to='/forgot' style={{ color: eColours.primaryBlue }}>
+            Yes
+          </Link>
+        </section>
       </div>
-      <div>
-        <Background />
-      </div>
+      {windowWidth > 1280 && (
+        <div>
+          <Background />
+        </div>
+      )}
     </Grid>
   )
 }

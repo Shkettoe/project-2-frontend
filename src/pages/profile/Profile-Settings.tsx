@@ -25,6 +25,7 @@ import registerTypes from '../../validation/types/Register.type'
 import passwordSchema from '../../validation/schemas/Passwords.schema'
 import Matchify from '../../validation/Matchify.util'
 import ProfileImage from '../../components/ProfileImage'
+import User from '../../interfaces/User.interface'
 
 const ProfileSettings = () => {
   const [image, setImage] = useState<File>()
@@ -42,12 +43,24 @@ const ProfileSettings = () => {
   }
 
   const eProfileRenders = {
-    profile: () => <PersonalDataForm user={user} errors={errors} width={529} register={register} />,
+    profile: () => (
+      <PersonalDataForm
+        user={user}
+        errors={errors}
+        width={529}
+        register={register}
+      />
+    ),
     password: () => (
       <>
         <InputContainer>
           <Label htmlFor='password'>Current Password</Label>
-          <InputB type={'password'} {...register('current_password')} width={'529px'} height={'46px'} />
+          <InputB
+            type={'password'}
+            {...register('current_password')}
+            width={'529px'}
+            height={'46px'}
+          />
           <Error>{errors.current_password?.message}</Error>
         </InputContainer>
         <PasswordsForm errors={errors} register={register} width={529} />
@@ -55,11 +68,33 @@ const ProfileSettings = () => {
     ),
     avatar: () => (
       <>
-        <div style={{ display: 'flex', flexDirection: 'column', minWidth: '529px', alignItems: 'center' }}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            minWidth: '529px',
+            alignItems: 'center',
+          }}>
           <Label htmlFor='image'>
-            <InputB type='file' accept='.jpeg, .jpg, .png' multiple={false} id='image' hidden onChange={e => e.target.files && setImage(e.target.files[0])} />
-            <ProfileImage src={image ? URL.createObjectURL(image) : user.avatar} width={'64px'} />
-            <Button type='button' width={'529px'} height={'39px'} style={{ marginTop: '42px' }}>
+            <InputB
+              type='file'
+              accept='.jpeg, .jpg, .png'
+              multiple={false}
+              id='image'
+              hidden
+              onChange={(e: React.ChangeEvent<any>) =>
+                e.target.files && setImage(e.target.files[0])
+              }
+            />
+            <ProfileImage
+              src={image ? URL.createObjectURL(image) : user.avatar}
+              width={'64px'}
+            />
+            <Button
+              type='button'
+              width={'529px'}
+              height={'39px'}
+              style={{ marginTop: '42px' }}>
               <label htmlFor='image'>Upload new image</label>
             </Button>
           </Label>
@@ -76,7 +111,7 @@ const ProfileSettings = () => {
 
   const [user, ,] = useR()
   const dispatch = useAppDispatch()
-  const [response, error, apiFetch] = useAPI()
+  const [response, error, apiFetch] = useAPI<User>()
   const { setOpenProfile } = useContext(ProfileSettingsContext)
   const [page, setPage] = useState<'profile' | 'password' | 'avatar'>('profile')
   const [saved, setSaved] = useState(false)
@@ -109,7 +144,7 @@ const ProfileSettings = () => {
         setSaved(true)
       }, 300)
     }
-  })
+  }, [response])
 
   const btn = useRef<HTMLAnchorElement>(null)
   return ReactDOM.createPortal(
@@ -118,16 +153,25 @@ const ProfileSettings = () => {
       {!saved ? (
         <STProfile animation='fadein'>
           <Paragraph fontSize={eFontSizes.headline3}>
-            Profile <span style={{ color: eColours.primaryBlue }}>settings.</span>
+            Profile{' '}
+            <span style={{ color: eColours.primaryBlue }}>settings.</span>
           </Paragraph>
           <Paragraph color={eColours.dark}>{eProfileTexts[page]}</Paragraph>
-          <form onSubmit={handleSubmit(submit)} encType={page == 'avatar' ? 'multipart/form-data' : ''}>
+          <form
+            onSubmit={handleSubmit(submit)}
+            encType={page == 'avatar' ? 'multipart/form-data' : ''}>
             <>
               <Error>{error}</Error>
               {eProfileRenders[page]()}
               {page === 'profile' && (
                 <FlexRow>
-                  <Button type='button' onClick={() => setPage('password')} textTransform={'none'} bgColour={eColours.black} width={'255.5px'} height={'39px'}>
+                  <Button
+                    type='button'
+                    onClick={() => setPage('password')}
+                    textTransform={'none'}
+                    bgColour={eColours.black}
+                    width={'255.5px'}
+                    height={'39px'}>
                     Change password
                   </Button>
                   <Button
@@ -142,25 +186,43 @@ const ProfileSettings = () => {
                 </FlexRow>
               )}
               <FlexRow gap={'30px'} style={{ paddingTop: '32px' }}>
-                <Button type='submit' bgColour={eColours.primaryBlue} width={'121px'} height={'39px'}>
+                <Button
+                  type='submit'
+                  bgColour={eColours.primaryBlue}
+                  width={'121px'}
+                  height={'39px'}>
                   Submit
                 </Button>
-                <Link ref={btn} style={{ color: eColours.black }} onClick={() => setOpenProfile(false)} to={'/'}>
-                  Cancel
-                </Link>
+                <section>
+                  {user.role === 'admin' && (
+                    <Link to={'/admin'}>Admin Panel</Link>
+                  )}
+                  <Link
+                    ref={btn}
+                    style={{ color: eColours.black }}
+                    onClick={() => setOpenProfile(false)}
+                    to={'#'}>
+                    Cancel
+                  </Link>
+                </section>
               </FlexRow>
             </>
           </form>
         </STProfile>
       ) : (
         <STProfile animation='fadeout'>
-          <Paragraph fontSize={eFontSizes.headline3}>Information changed</Paragraph>
+          <Paragraph fontSize={eFontSizes.headline3}>
+            Information changed
+          </Paragraph>
           <Paragraph color={eColours.dark}>Your settings are saved</Paragraph>
           <FlexRow gap={'30px'}>
-            <Button onClick={() => btn.current?.click()} type='submit' bgColour={eColours.primaryBlue} width={'121px'} height={'39px'}>
-              <Link ref={btn} onClick={() => setOpenProfile(false)} to={'/'}>
-                Close
-              </Link>
+            <Button
+              onClick={() => setOpenProfile(false)}
+              type='submit'
+              bgColour={eColours.primaryBlue}
+              width={'121px'}
+              height={'39px'}>
+              Close
             </Button>
           </FlexRow>
         </STProfile>
