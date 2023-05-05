@@ -45,8 +45,9 @@ const useR = () => {
   }, [response])
 
   useEffect(() => {
+    console.log(!user.id && !error && !loading)
     setNoConn(!user.id && !error && !loading)
-  }, [response, error])
+  }, [response, error, loading])
 
   return [
     user,

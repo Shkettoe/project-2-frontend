@@ -55,8 +55,9 @@ const AddLocation = () => {
   }
 
   useEffect(() => {
+    console.log(error)
     error.length &&
-      setError('Make sure you uploaded an image and selected a location.')
+      setError(error)
   }, [error])
 
   useEffect(() => {

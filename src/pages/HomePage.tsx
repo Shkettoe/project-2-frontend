@@ -51,7 +51,7 @@ const HomePage = () => {
         Your personal best guesses appear here. Go on and try to beat your
         personal records or set a new one!
       </Paragraph>
-      {!user.guesses.length ? (
+      {!user.guesses || !user.guesses.length ? (
         <Paragraph color={eColours.orange}>
           You haven't guessed anything yet.
         </Paragraph>

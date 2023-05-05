@@ -31,7 +31,7 @@ const Flex = styled.div`
 
 function App() {
   const [listen] = useEvents()
-  const [user, , startSession, error, , loading, noConn] = useR()
+  const [user, , startSession, , , loading, noConn] = useR()
 
   useEffect(() => {
     listen()

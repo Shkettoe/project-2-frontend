@@ -88,7 +88,7 @@ const Leaderboard = ({
                   </Paragraph>
                 </div>
               </div>
-              <Paragraph>{g.error_distance}</Paragraph>
+              <Paragraph>{Number(g.error_distance) < 1000 ? g.error_distance + "m" : Math.floor(Number(g.error_distance)/1000) + "km"}</Paragraph>
             </Entry>
           ))}
         </>

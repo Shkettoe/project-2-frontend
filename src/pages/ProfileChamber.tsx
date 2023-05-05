@@ -174,7 +174,7 @@ const ProfilePage = () => {
         <Paragraph fontSize={eFontSizes.headline4}>
           {current.id === user.id ? 'My' : `${user.first_name}'s`} best guesses
         </Paragraph>
-        {!user.guesses.length ? (
+        {!user.guesses || !user.guesses.length ? (
           <Paragraph color={eColours.orange}>
             {current.id === user.id
               ? "You haven't"
