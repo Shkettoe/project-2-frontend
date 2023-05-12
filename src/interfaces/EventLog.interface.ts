@@ -4,7 +4,7 @@ import User from './User.interface'
 interface EventLog {
   id?: number
   action: string
-  compotent_type: ComponentTypes
+  component_type: ComponentTypes
   new_value: string
   location: string
   date: Date | string

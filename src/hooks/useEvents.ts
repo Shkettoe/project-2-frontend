@@ -1,8 +1,7 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import EventLog from '../interfaces/EventLog.interface'
 import useAPI from '../hooks/useAPI'
 import { EventsContext } from '../store/context/EventsContext'
-import { ProfileSettingsContext } from '../store/context/ProfileSettingsContext'
 
 declare global {
   interface EventTarget {
@@ -19,7 +18,7 @@ declare global {
 const useEvents = () => {
   const { events, setEvents } = useContext(EventsContext)
   const eventsRef = useRef<EventLog[]>(events)
-  const [, , apiFetch] = useAPI()
+  const [, , apiFetch] = useAPI<EventLog>()
 
   enum types {
     A = 'anchor',
@@ -39,7 +38,7 @@ const useEvents = () => {
     else if (ct == 'input') ct = `input:${e.target?.type}`
     const event: EventLog = {
       action: e.type,
-      compotent_type: ct,
+      component_type: ct,
       date: new Date(),
       location: e.target?.baseURI,
       new_value: e.target?.value || '',

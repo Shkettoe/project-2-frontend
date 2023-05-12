@@ -60,7 +60,7 @@ const Event = ({ event }: { event?: EventLog }) => {
   const date: Date = new Date(event?.date.toString() || '')
   return (
     <STEvent>
-      <div>{event?.compotent_type}</div>
+      <div>{event?.component_type}</div>
       <div>
         <p>
           {date?.getDate() +
