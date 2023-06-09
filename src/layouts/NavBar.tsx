@@ -85,7 +85,7 @@ const Plus = styled(NavLink)`,
   padding: 2px;
   width: 40px;
   height: 40px;
-  background: #619b8a;
+  background: ${eColours.primaryBlue};
   border-radius: 60px;
   color: #fff;
   margin-bottom: -4px;

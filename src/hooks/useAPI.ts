@@ -22,6 +22,7 @@ const useAPI = <T>() => {
         await apiInstance(url, {
           method,
           data,
+          withCredentials: true,
         }),
       )
     } catch (err: any) {
