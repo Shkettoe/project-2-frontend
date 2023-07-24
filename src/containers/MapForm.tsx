@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import useLandmark from '../hooks/useLandmark'
 import Error from '../components/Error'
 import Button from '../components/Button'
+import { Library } from '@googlemaps/js-api-loader'
 
 const FormContainer = styled.div`
   max-width: 860px;
@@ -18,13 +19,7 @@ const FormContainer = styled.div`
   }
 `
 
-const libraries = ['places'] as (
-  | 'places'
-  | 'drawing'
-  | 'geometry'
-  | 'localContext'
-  | 'visualization'
-)[]
+const libraries: Library[] = ['places'] as Library[]
 
 const MapForm = ({
   lat,
